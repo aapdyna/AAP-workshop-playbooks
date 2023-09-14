@@ -1,23 +1,19 @@
 ---
-- name: Scale EasyTravel MongoDB deployment Up
+- name: Scale EasyTravel WWW
   hosts: all
   connection: ssh
   gather_facts: no
   tasks:
   
     - name: Login to OpenShift cluster
-      command: oc login -u opentlc-mgr -p bLQGzhxJ1kUBH42O https://api.cluster-g7zl7.g7zl7.sandbox1851.opentlc.com:6443
+      command: oc login -u admin  -p openshift https://api.cluster-xjp9c.xjp9c.sandbox1854.opentlc.com:6443
      
     - name: Scale deployment
-      command: oc scale deployment easytravel-mongodb -n easytravel --replicas=1
+      command: oc scale deployment easytravel-www -n easytravel --replicas=1
       
-    - name: Wait for 30 seconds
-      pause:
-        seconds: 30    
-
     - name: Notify Slack channel
       slack:
        token: "T0508SWKB2N/B04V8C4P6A3/fr3b7rtyxJrZgjuRqQ1UCT1d"
        channel: "#devops"
-       msg: "*Processing remediation Workflow. Please wait 5 minutes for the DB to come up*"  
+       msg: "*Processing remediation Workflow. Application is now accessible*"  
       
